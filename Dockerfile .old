@@ -15,13 +15,15 @@ RUN apt-get update && apt-get install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 
 RUN pip install playwright && playwright install
 
 # Copy the rest of the application files
-COPY ./app .
+COPY ./app ./app
 
 # Ensure outputs directory exists and is writable
-RUN mkdir -p ./outputs && chmod -R 777 ./outputs
+RUN mkdir -p /app/app/outputs && chmod -R 777 /app/app/outputs
 
 # Expose port 8000 for the FastAPI service
 EXPOSE 8000
 
+# CMD ["python3", "test.py"]
+
 # Run the FastAPI server using uvicorn
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
